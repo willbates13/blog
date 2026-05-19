@@ -38,8 +38,7 @@ body { font-family: "Arial Rounded MT Bold", "Nunito", "Segoe UI", system-ui, sa
   overflow: hidden;
 }
 
-/* If wii-bg.jpg exists in /img/, use it */
-.wii-bg { background-image: url('/blog/img/wii-bg.jpg'); background-size: cover; background-position: center; }
+/* Background image injected via inline style in index.html */
 
 .bubble {
   position: absolute;

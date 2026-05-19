@@ -1,8 +1,8 @@
 {{ partial "head.html" . }}
 <body class="home-body">
 
-  <!-- Background: drop wii-bg.jpg into static/img/ to use a screenshot -->
-  <div class="wii-bg">
+  <!-- Background -->
+  <div class="wii-bg" style="background-image:url('{{ "img/wii-bg.jpg" | relURL }}');background-size:cover;background-position:center top;">
     <div class="bubble b1"></div><div class="bubble b2"></div>
     <div class="bubble b3"></div><div class="bubble b4"></div>
     <div class="bubble b5"></div><div class="bubble b6"></div>
