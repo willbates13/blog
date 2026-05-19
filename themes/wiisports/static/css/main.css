@@ -1,360 +1,376 @@
-/* ── Reset & base ── */
+/* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Variables ── */
 :root {
-  --wii-sky1:     #aad4f0;
-  --wii-sky2:     #d6eefa;
-  --wii-sky3:     #eef7fd;
-  --wii-blue:     #1a8fc8;
-  --basketball:   #e07320;
-  --golf:         #3d9e42;
-  --football:     #8b4513;
-  --hockey:       #2d6db5;
-  --radius-ch:    20px;
+  --sky-top:    #7ac8e8;
+  --sky-mid:    #b8dff5;
+  --sky-bot:    #daf0fb;
+  --ch-w:       220px;
+  --ch-h:       165px;
+  --ch-r:       18px;
+  --basketball: #e07320;
+  --golf:       #3a9e3f;
+  --football:   #8b4513;
+  --hockey:     #2b6ab5;
+  --wii-blue:   #1a8fc8;
 }
 
-body {
-  font-family: "Segoe UI", "Arial Rounded MT Bold", system-ui, sans-serif;
-  min-height: 100vh;
-}
+body { font-family: "Arial Rounded MT Bold", "Nunito", "Segoe UI", system-ui, sans-serif; }
 
-/* ═══════════════════════════════════════
+/* ═══════════════════════════════
    HOME PAGE
-═══════════════════════════════════════ */
+═══════════════════════════════ */
 .home-body {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  gap: 32px;
   overflow: hidden;
   position: relative;
 }
 
-/* ── Wii sky background ── */
+/* ── Sky background ── */
 .wii-bg {
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, var(--wii-sky1) 0%, var(--wii-sky2) 55%, var(--wii-sky3) 100%);
-  z-index: -1;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-bot) 100%);
+  z-index: 0;
   overflow: hidden;
 }
 
-/* Floating bubbles */
+/* If wii-bg.jpg exists in /img/, use it */
+.wii-bg { background-image: url('/blog/img/wii-bg.jpg'); background-size: cover; background-position: center; }
+
 .bubble {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.5);
   animation: floatUp linear infinite;
 }
-.b1 { width:180px; height:180px; left:5%;  bottom:-200px; animation-duration:18s; animation-delay:0s; }
-.b2 { width:100px; height:100px; left:20%; bottom:-200px; animation-duration:14s; animation-delay:3s; }
-.b3 { width:260px; height:260px; left:55%; bottom:-300px; animation-duration:22s; animation-delay:1s; }
-.b4 { width:70px;  height:70px;  left:75%; bottom:-200px; animation-duration:12s; animation-delay:6s; }
-.b5 { width:140px; height:140px; left:85%; bottom:-200px; animation-duration:16s; animation-delay:2s; }
-.b6 { width:50px;  height:50px;  left:40%; bottom:-200px; animation-duration:10s; animation-delay:8s; }
+.b1{width:180px;height:180px;left:4%;  bottom:-250px;animation-duration:20s;animation-delay:0s;}
+.b2{width:90px; height:90px; left:18%; bottom:-200px;animation-duration:14s;animation-delay:4s;}
+.b3{width:260px;height:260px;left:52%; bottom:-300px;animation-duration:24s;animation-delay:1s;}
+.b4{width:60px; height:60px; left:72%; bottom:-150px;animation-duration:11s;animation-delay:7s;}
+.b5{width:130px;height:130px;left:83%; bottom:-200px;animation-duration:17s;animation-delay:2s;}
+.b6{width:45px; height:45px; left:38%; bottom:-150px;animation-duration:9s; animation-delay:9s;}
 
 @keyframes floatUp {
-  0%   { transform: translateY(0)   scale(1);    opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateY(-110vh) scale(1.1); opacity: 0; }
+  0%   { transform:translateY(0);       opacity:0; }
+  8%   { opacity:0.8; }
+  92%  { opacity:0.5; }
+  100% { transform:translateY(-110vh);  opacity:0; }
 }
 
-/* ── Logo ── */
-.home-header { text-align: center; }
+/* ── Top bar (Wii Sports logo) ── */
+.wii-topbar {
+  position: relative;
+  z-index: 10;
+  padding: 18px 28px 12px;
+  display: flex;
+  align-items: center;
+}
 
-.wii-logo {
+.wii-logo-wrap {
   display: flex;
   align-items: baseline;
-  justify-content: center;
-  gap: 10px;
-  filter: drop-shadow(0 4px 12px rgba(0,80,160,0.3));
+  gap: 6px;
+  filter: drop-shadow(0 3px 10px rgba(0,60,140,0.35));
 }
 
-.wii-text {
-  font-size: clamp(3rem, 8vw, 5.5rem);
+.logo-wii {
+  font-size: 3.2rem;
   font-weight: 900;
-  color: #fff;
   font-style: italic;
+  color: #fff;
   letter-spacing: -2px;
-  text-shadow: 0 3px 0 rgba(0,100,200,0.25), 0 6px 16px rgba(0,80,160,0.3);
+  text-shadow: 0 3px 0 rgba(0,80,180,0.3);
 }
 
-.sports-text {
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+.logo-sports {
+  font-size: 1.9rem;
   font-weight: 800;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0,80,160,0.3);
+  text-shadow: 0 2px 0 rgba(0,80,180,0.25);
+}
+
+.logo-analytics {
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.15);
+  padding: 3px 10px;
+  border-radius: 20px;
   letter-spacing: 0.5px;
 }
 
-.home-sub {
-  color: rgba(255,255,255,0.85);
-  font-size: 1rem;
-  margin-top: 6px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-/* ── Channel grid ── */
-.channel-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 300px);
-  grid-template-rows: repeat(2, 190px);
-  gap: 20px;
-}
-
-@media (max-width: 680px) {
-  .channel-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 150px); gap: 12px; }
-}
-
-/* ── Individual channel ── */
-.channel {
+/* ── Channel screen ── */
+.wii-screen {
   position: relative;
-  border-radius: var(--radius-ch);
-  background: #fff;
-  box-shadow:
-    0 2px 0 rgba(0,0,0,0.08),
-    0 6px 24px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.9);
-  display: flex;
-  flex-direction: column;
-  overflow: visible;
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.18s ease;
-  cursor: pointer;
-}
-
-.channel:hover {
-  transform: scale(1.06) translateY(-4px);
-  box-shadow:
-    0 4px 0 rgba(0,0,0,0.1),
-    0 16px 40px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.9);
   z-index: 10;
-}
-
-/* Shine overlay */
-.channel::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--radius-ch);
-  background: linear-gradient(160deg, rgba(255,255,255,0.35) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-/* ── Channel banner (top color strip) ── */
-.channel-banner {
-  border-radius: var(--radius-ch) var(--radius-ch) 0 0;
-  padding: 7px 14px;
-  font-size: 0.62rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: rgba(255,255,255,0.95);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-}
-
-.banner-basketball { background: linear-gradient(90deg, #e07320, #c85a10); }
-.banner-golf       { background: linear-gradient(90deg, #3d9e42, #2a7530); }
-.banner-football   { background: linear-gradient(90deg, #a0581f, #6b3010); }
-.banner-hockey     { background: linear-gradient(90deg, #2d6db5, #1a4a8a); }
-
-/* ── Channel body (icon area) ── */
-.channel-body {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 0 10px;
 }
 
-.channel-icon {
-  font-size: 4.5rem;
-  line-height: 1;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-  transition: transform 0.18s ease;
+/* ── Channel row ── */
+.channel-row {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  justify-content: center;
+  /* allow hover cards to overflow */
+  overflow: visible;
+  padding: 80px 24px;
 }
 
-.channel:hover .channel-icon {
-  transform: scale(1.12);
+/* ── Single channel ── */
+.ch {
+  position: relative;
+  width: var(--ch-w);
+  height: var(--ch-h);
+  border-radius: var(--ch-r);
+  background: rgba(255,255,255,0.95);
+  box-shadow:
+    0 3px 0 rgba(0,0,0,0.12),
+    0 8px 28px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,1);
+  text-decoration: none;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.15s cubic-bezier(.34,1.56,.64,1), box-shadow 0.15s ease;
+  flex-shrink: 0;
 }
 
-/* ── Preview card (appears on hover) ── */
-.channel-preview {
+/* Shine */
+.ch::before {
+  content: "";
   position: absolute;
-  bottom: calc(100% + 14px);
+  inset: 0;
+  border-radius: var(--ch-r);
+  background: linear-gradient(160deg, rgba(255,255,255,0.5) 0%, transparent 45%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Sport colour accent — left border */
+.ch-basketball { border-top: 5px solid var(--basketball); }
+.ch-golf       { border-top: 5px solid var(--golf); }
+.ch-football   { border-top: 5px solid var(--football); }
+.ch-hockey     { border-top: 5px solid var(--hockey); }
+
+.ch:hover {
+  transform: translateY(-10px) scale(1.06);
+  box-shadow:
+    0 6px 0 rgba(0,0,0,0.1),
+    0 20px 50px rgba(0,0,0,0.25),
+    inset 0 1px 0 #fff;
+  z-index: 20;
+}
+
+/* ── Channel inner ── */
+.ch-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.ch-graphic {
+  font-size: 3.8rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  transition: transform 0.15s ease;
+}
+
+.ch:hover .ch-graphic { transform: scale(1.15); }
+
+.ch-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #444;
+  text-transform: uppercase;
+}
+
+/* ── Hover card (pops above) ── */
+.ch-hover-card {
+  position: absolute;
+  bottom: calc(100% + 16px);
   left: 50%;
-  transform: translateX(-50%) translateY(8px) scale(0.95);
-  width: 280px;
+  transform: translateX(-50%) translateY(12px) scale(0.9);
+  width: 240px;
+  background: #fff;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.28), 0 2px 6px rgba(0,0,0,0.12);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(.34,1.56,.64,1);
-  z-index: 50;
-  background: #fff;
+  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(.34,1.56,.64,1);
+  z-index: 100;
 }
 
-.channel:hover .channel-preview {
+.ch:hover .ch-hover-card {
   opacity: 1;
   transform: translateX(-50%) translateY(0) scale(1);
 }
 
-/* Keep preview on screen for bottom row */
-.channel:nth-child(3) .channel-preview,
-.channel:nth-child(4) .channel-preview {
-  bottom: auto;
-  top: calc(100% + 14px);
-}
-
-.preview-img-wrap {
+/* Sport art scenes */
+.ch-hover-art {
   width: 100%;
-  height: 160px;
+  height: 140px;
+  position: relative;
   overflow: hidden;
 }
 
-/* Sport art illustrations */
-.preview-sport-art {
-  width: 100%;
-  height: 100%;
+.bball-art {
+  background: radial-gradient(ellipse at 50% 80%, #c85a10 0%, #e07320 50%, #f09040 100%);
 }
-
-.art-basketball {
-  background:
-    radial-gradient(circle at 50% 60%, #e07320 0%, #c85a10 60%, #a04000 100%);
-  position: relative;
-}
-.art-basketball::before {
+.bball-art::before {
   content: "🏀";
   position: absolute;
-  font-size: 90px;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3));
-}
-.art-basketball::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    repeating-linear-gradient(0deg, transparent, transparent 38px, rgba(0,0,0,0.08) 38px, rgba(0,0,0,0.08) 40px),
-    repeating-linear-gradient(90deg, transparent, transparent 38px, rgba(0,0,0,0.08) 38px, rgba(0,0,0,0.08) 40px);
-}
-
-.art-golf {
-  background: linear-gradient(180deg, #87ceeb 0%, #87ceeb 50%, #4caf50 50%, #388e3c 100%);
-  position: relative;
-}
-.art-golf::before {
-  content: "⛳";
-  position: absolute;
   font-size: 80px;
-  top: 40%; left: 50%;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.2));
-}
-
-.art-football {
-  background: linear-gradient(135deg, #2d5a1b 0%, #1a3a0d 50%, #3a7a22 100%);
-  position: relative;
-  overflow: hidden;
-}
-.art-football::before {
-  content: "🏈";
-  position: absolute;
-  font-size: 90px;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.35));
 }
-.art-football::after {
+.bball-art::after {
   content: "";
   position: absolute;
   inset: 0;
   background: repeating-linear-gradient(
-    90deg,
-    transparent, transparent 28px,
-    rgba(255,255,255,0.07) 28px, rgba(255,255,255,0.07) 30px
+    0deg, transparent, transparent 26px,
+    rgba(0,0,0,0.06) 26px, rgba(0,0,0,0.06) 28px
   );
 }
 
-.art-hockey {
-  background: linear-gradient(180deg, #1a2a4a 0%, #0d1a30 50%, #e8f0f8 50%, #d0e0f0 100%);
+.golf-art {
+  background: linear-gradient(180deg, #5bbce4 0%, #78cff0 45%, #4aae4e 45%, #2e8c32 100%);
   position: relative;
 }
-.art-hockey::before {
-  content: "🏒";
+.golf-art::before {
+  content: "⛳";
+  position: absolute;
+  font-size: 72px;
+  top: 38%; left: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+
+.football-art {
+  background: linear-gradient(180deg, #4a7a28 0%, #355c1a 40%, #2a4a12 100%);
+  position: relative;
+}
+.football-art::before {
+  content: "🏈";
   position: absolute;
   font-size: 80px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+}
+.football-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg, transparent, transparent 22px,
+    rgba(255,255,255,0.06) 22px, rgba(255,255,255,0.06) 24px
+  );
+}
+
+.hockey-art {
+  background: linear-gradient(180deg, #1a2a4a 0%, #0d1828 48%, #dce8f5 48%, #c8dcf0 100%);
+  position: relative;
+}
+.hockey-art::before {
+  content: "🏒";
+  position: absolute;
+  font-size: 72px;
   top: 40%; left: 50%;
   transform: translate(-50%, -50%);
-  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
 }
 
-.preview-label {
-  padding: 10px 14px 2px;
+.ch-hover-label {
+  padding: 10px 14px 3px;
   font-weight: 800;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #111;
 }
-
-.preview-sub {
+.ch-hover-sub {
   padding: 0 14px 12px;
-  font-size: 0.82rem;
-  color: #777;
+  font-size: 0.8rem;
+  color: #888;
 }
 
-/* ── Music button ── */
+/* ── Bottom bar ── */
+.wii-bottombar {
+  position: relative;
+  z-index: 10;
+  padding: 12px 28px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .music-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 28px;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: none;
   background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(8px);
-  font-size: 1.4rem;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  transition: background 0.2s, transform 0.15s;
+  border: none;
+  border-radius: 22px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: #555;
-  z-index: 100;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  transition: background 0.2s, transform 0.15s;
+  letter-spacing: 0.3px;
 }
 
-.music-btn:hover { transform: scale(1.1); }
+.music-btn:hover { transform: scale(1.05); }
 
-.music-btn.active {
+.music-btn.playing {
   background: var(--wii-blue);
   color: #fff;
   animation: pulse 2s ease infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 4px 16px rgba(26,143,200,0.4); }
-  50%       { box-shadow: 0 4px 28px rgba(26,143,200,0.7); }
+  0%,100% { box-shadow: 0 3px 12px rgba(26,143,200,0.4); }
+  50%      { box-shadow: 0 3px 24px rgba(26,143,200,0.7); }
+}
+
+@media (max-width: 980px) {
+  .channel-row { flex-wrap: wrap; max-width: 500px; }
+  :root { --ch-w: 200px; --ch-h: 155px; }
+}
+@media (max-width: 480px) {
+  :root { --ch-w: 150px; --ch-h: 130px; }
+  .ch-graphic { font-size: 2.8rem; }
+  .ch-name { font-size: 0.68rem; }
 }
 
 
-/* ═══════════════════════════════════════
+/* ═══════════════════════════════
    INNER PAGES
-═══════════════════════════════════════ */
+═══════════════════════════════ */
 .inner-body {
   background: #eef4f9;
   min-height: 100vh;
 }
 
 .inner-body.sport-basketball { --accent: var(--basketball); --accent-dark: #a04000; }
-.inner-body.sport-golf       { --accent: var(--golf);       --accent-dark: #2a7530; }
+.inner-body.sport-golf       { --accent: var(--golf);       --accent-dark: #27712a; }
 .inner-body.sport-football   { --accent: var(--football);   --accent-dark: #5a2d0c; }
-.inner-body.sport-hockey     { --accent: var(--hockey);     --accent-dark: #1a4a8a; }
+.inner-body.sport-hockey     { --accent: var(--hockey);     --accent-dark: #1a488a; }
 
 .top-nav {
   display: flex;
@@ -373,7 +389,6 @@ body {
   transition: opacity 0.15s;
 }
 .nav-home:hover { opacity: 0.7; }
-
 .nav-title { font-weight: 800; font-size: 1.1rem; }
 
 .inner-main {
@@ -382,27 +397,11 @@ body {
   padding: 40px 24px 80px;
 }
 
-/* ── Sport section header ── */
-.sport-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-
+.sport-header { text-align: center; margin-bottom: 48px; }
 .sport-hero-icon { font-size: 5rem; line-height: 1; margin-bottom: 12px; }
+.sport-header h1 { font-size: 2.4rem; font-weight: 800; color: var(--accent, var(--wii-blue)); }
+.sport-desc { color: #666; margin-top: 8px; font-size: 1.05rem; }
 
-.sport-header h1 {
-  font-size: 2.4rem;
-  font-weight: 800;
-  color: var(--accent, var(--wii-blue));
-}
-
-.sport-desc {
-  color: #666;
-  margin-top: 8px;
-  font-size: 1.05rem;
-}
-
-/* ── Post list ── */
 .post-list { display: flex; flex-direction: column; gap: 20px; }
 
 .post-card {
@@ -416,11 +415,7 @@ body {
   border-left: 5px solid var(--accent, var(--wii-blue));
   transition: transform 0.15s, box-shadow 0.15s;
 }
-
-.post-card:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
+.post-card:hover { transform: translateX(4px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
 
 .post-meta { font-size: 0.82rem; color: #999; margin-bottom: 6px; }
 .post-title { font-size: 1.3rem; font-weight: 700; color: #111; margin-bottom: 8px; }
@@ -438,14 +433,12 @@ body {
 
 .no-posts { color: #999; text-align: center; padding: 60px 0; font-size: 1.1rem; }
 
-/* ── Single post ── */
 .post-article {
   background: #fff;
   border-radius: 16px;
   padding: 40px 48px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.07);
 }
-
 @media (max-width: 600px) { .post-article { padding: 24px 20px; } }
 
 .post-header { margin-bottom: 32px; }
@@ -458,50 +451,22 @@ body {
 .post-content p  { margin-bottom: 1.2em; }
 
 .post-content code {
-  background: #f0f0f0;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
+  background: #f0f0f0; padding: 2px 6px;
+  border-radius: 4px; font-size: 0.9em;
 }
-
 .post-content pre {
-  background: #1e1e2e;
-  color: #cdd6f4;
-  padding: 20px 24px;
-  border-radius: 10px;
-  overflow-x: auto;
-  margin: 1.5em 0;
-  font-size: 0.9em;
-  line-height: 1.6;
+  background: #1e1e2e; color: #cdd6f4;
+  padding: 20px 24px; border-radius: 10px;
+  overflow-x: auto; margin: 1.5em 0;
+  font-size: 0.9em; line-height: 1.6;
 }
-
 .post-content pre code { background: none; padding: 0; }
-
 .post-content blockquote {
   border-left: 4px solid var(--accent, var(--wii-blue));
-  padding-left: 20px;
-  color: #666;
-  font-style: italic;
-  margin: 1.5em 0;
+  padding-left: 20px; color: #666;
+  font-style: italic; margin: 1.5em 0;
 }
-
-.post-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1.5em 0;
-  font-size: 0.95em;
-}
-
-.post-content th, .post-content td {
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  text-align: left;
-}
-
-.post-content th {
-  background: var(--accent, var(--wii-blue));
-  color: #fff;
-  font-weight: 700;
-}
-
+.post-content table { width: 100%; border-collapse: collapse; margin: 1.5em 0; font-size: 0.95em; }
+.post-content th, .post-content td { padding: 10px 14px; border: 1px solid #e0e0e0; text-align: left; }
+.post-content th { background: var(--accent, var(--wii-blue)); color: #fff; font-weight: 700; }
 .post-content tr:nth-child(even) td { background: #f8f8f8; }
