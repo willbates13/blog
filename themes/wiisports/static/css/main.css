@@ -29,16 +29,14 @@ body { font-family: "Arial Rounded MT Bold", "Nunito", "Segoe UI", system-ui, sa
   position: relative;
 }
 
-/* ── Sky background ── */
-.wii-bg {
+/* ── Bubble overlay (sits over background image) ── */
+.wii-bubbles {
   position: fixed;
   inset: 0;
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 50%, var(--sky-bot) 100%);
   z-index: 0;
   overflow: hidden;
+  pointer-events: none;
 }
-
-/* Background image injected via inline style in index.html */
 
 .bubble {
   position: absolute;
@@ -314,37 +312,7 @@ body { font-family: "Arial Rounded MT Bold", "Nunito", "Segoe UI", system-ui, sa
 .wii-bottombar {
   position: relative;
   z-index: 10;
-  padding: 12px 28px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.music-btn {
-  background: rgba(255,255,255,0.85);
-  border: none;
-  border-radius: 22px;
-  padding: 8px 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #555;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-  transition: background 0.2s, transform 0.15s;
-  letter-spacing: 0.3px;
-}
-
-.music-btn:hover { transform: scale(1.05); }
-
-.music-btn.playing {
-  background: var(--wii-blue);
-  color: #fff;
-  animation: pulse 2s ease infinite;
-}
-
-@keyframes pulse {
-  0%,100% { box-shadow: 0 3px 12px rgba(26,143,200,0.4); }
-  50%      { box-shadow: 0 3px 24px rgba(26,143,200,0.7); }
+  padding: 20px;
 }
 
 @media (max-width: 980px) {

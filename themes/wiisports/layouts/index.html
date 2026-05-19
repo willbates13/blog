@@ -1,8 +1,18 @@
 {{ partial "head.html" . }}
+{{ define "head_extra" }}
+<style>
+  .home-body {
+    background-image: url('{{ "img/wii-bg.jpg" | relURL }}');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+  }
+</style>
+{{ end }}
 <body class="home-body">
 
-  <!-- Background -->
-  <div class="wii-bg" style="background-image:url('{{ "img/wii-bg.jpg" | relURL }}');background-size:cover;background-position:center top;">
+  <!-- Floating bubbles overlay -->
+  <div class="wii-bubbles">
     <div class="bubble b1"></div><div class="bubble b2"></div>
     <div class="bubble b3"></div><div class="bubble b4"></div>
     <div class="bubble b5"></div><div class="bubble b6"></div>
@@ -71,80 +81,6 @@
   </div>
 
   <!-- Bottom bar -->
-  <div class="wii-bottombar">
-    <button id="music-toggle" class="music-btn">&#9834; Music</button>
-  </div>
-
-  <audio id="bg-music" loop>
-    <source src="{{ "audio/theme.mp3" | relURL }}" type="audio/mpeg">
-  </audio>
+  <div class="wii-bottombar"></div>
 
 {{ partial "footer.html" . }}
-{{ define "scripts" }}
-<script>
-(function () {
-  /* ── Sound engine ── */
-  var actx = null;
-  function ctx() {
-    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
-    return actx;
-  }
-
-  function tone(freq, duration, vol, delay) {
-    try {
-      var c = ctx(), o = c.createOscillator(), g = c.createGain();
-      o.connect(g); g.connect(c.destination);
-      o.type = 'sine';
-      var t = c.currentTime + (delay || 0);
-      o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(vol || 0.12, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t + duration);
-      o.start(t); o.stop(t + duration + 0.01);
-    } catch(e) {}
-  }
-
-  function playHover() {
-    tone(880,  0.15, 0.10, 0);
-    tone(1109, 0.12, 0.08, 0.08);
-  }
-
-  function playSelect() {
-    tone(1320, 0.08, 0.18, 0);
-    tone(880,  0.15, 0.14, 0.07);
-  }
-
-  /* ── Channels ── */
-  var channels = document.querySelectorAll('.ch');
-  var last = null;
-  channels.forEach(function(ch) {
-    ch.addEventListener('mouseenter', function() {
-      if (last !== ch) { playHover(); last = ch; }
-    });
-    ch.addEventListener('mouseleave', function() {
-      if (last === ch) last = null;
-    });
-    ch.addEventListener('mousedown', playSelect);
-  });
-
-  /* ── Music ── */
-  var btn   = document.getElementById('music-toggle');
-  var audio = document.getElementById('bg-music');
-  var on    = false;
-
-  function startMusic() {
-    audio.play().then(function() { on = true; btn.classList.add('playing'); }).catch(function(){});
-  }
-
-  document.addEventListener('click', function first() {
-    if (!on) startMusic();
-    document.removeEventListener('click', first);
-  });
-
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (on) { audio.pause(); on = false; btn.classList.remove('playing'); }
-    else { startMusic(); }
-  });
-}());
-</script>
-{{ end }}
