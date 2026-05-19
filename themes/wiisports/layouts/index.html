@@ -5,35 +5,23 @@
     background-image: url('{{ "img/wii-bg.jpg" | relURL }}');
     background-size: cover;
     background-position: center top;
-    background-attachment: fixed;
   }
 </style>
 {{ end }}
 <body class="home-body">
 
-  <!-- Floating bubbles overlay -->
   <div class="wii-bubbles">
     <div class="bubble b1"></div><div class="bubble b2"></div>
     <div class="bubble b3"></div><div class="bubble b4"></div>
     <div class="bubble b5"></div><div class="bubble b6"></div>
   </div>
 
-  <!-- Wii Sports logo bar -->
-  <div class="wii-topbar">
-    <div class="wii-logo-wrap">
-      <span class="logo-wii">Wii</span><span class="logo-sports">Sports</span><span class="logo-analytics">Analytics</span>
-    </div>
-  </div>
-
-  <!-- Channel grid -->
   <div class="wii-screen">
     <div class="channel-row">
 
       <a href="{{ "basketball/" | relURL }}" class="ch ch-basketball">
-        <div class="ch-inner">
-          <div class="ch-graphic">🏀</div>
-          <div class="ch-name">Basketball</div>
-        </div>
+        <div class="ch-emoji">🏀</div>
+        <div class="ch-name">Basketball</div>
         <div class="ch-hover-card">
           <div class="ch-hover-art bball-art"></div>
           <div class="ch-hover-label">Basketball Analytics</div>
@@ -42,10 +30,8 @@
       </a>
 
       <a href="{{ "golf/" | relURL }}" class="ch ch-golf">
-        <div class="ch-inner">
-          <div class="ch-graphic">⛳</div>
-          <div class="ch-name">Golf</div>
-        </div>
+        <div class="ch-emoji">⛳</div>
+        <div class="ch-name">Golf</div>
         <div class="ch-hover-card">
           <div class="ch-hover-art golf-art"></div>
           <div class="ch-hover-label">Golf Analytics</div>
@@ -54,10 +40,8 @@
       </a>
 
       <a href="{{ "american-football/" | relURL }}" class="ch ch-football">
-        <div class="ch-inner">
-          <div class="ch-graphic">🏈</div>
-          <div class="ch-name">Football</div>
-        </div>
+        <div class="ch-emoji">🏈</div>
+        <div class="ch-name">Football</div>
         <div class="ch-hover-card">
           <div class="ch-hover-art football-art"></div>
           <div class="ch-hover-label">Football Analytics</div>
@@ -66,10 +50,8 @@
       </a>
 
       <a href="{{ "ice-hockey/" | relURL }}" class="ch ch-hockey">
-        <div class="ch-inner">
-          <div class="ch-graphic">🏒</div>
-          <div class="ch-name">Ice Hockey</div>
-        </div>
+        <div class="ch-emoji">🏒</div>
+        <div class="ch-name">Ice Hockey</div>
         <div class="ch-hover-card">
           <div class="ch-hover-art hockey-art"></div>
           <div class="ch-hover-label">Hockey Analytics</div>
@@ -80,7 +62,38 @@
     </div>
   </div>
 
-  <!-- Bottom bar -->
-  <div class="wii-bottombar"></div>
-
 {{ partial "footer.html" . }}
+{{ define "scripts" }}
+<script>
+(function () {
+  var actx = null;
+  function ctx() {
+    if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    return actx;
+  }
+  function tone(freq, dur, vol, delay) {
+    try {
+      var c = ctx(), o = c.createOscillator(), g = c.createGain();
+      o.connect(g); g.connect(c.destination);
+      o.type = 'sine';
+      var t = c.currentTime + (delay || 0);
+      o.frequency.setValueAtTime(freq, t);
+      g.gain.setValueAtTime(vol, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      o.start(t); o.stop(t + dur + 0.01);
+    } catch(e) {}
+  }
+  function playHover() { tone(880, 0.15, 0.10, 0); tone(1109, 0.12, 0.08, 0.08); }
+  function playSelect() { tone(1320, 0.08, 0.18, 0); tone(880, 0.15, 0.14, 0.07); }
+
+  var last = null;
+  document.querySelectorAll('.ch').forEach(function(ch) {
+    ch.addEventListener('mouseenter', function() {
+      if (last !== ch) { playHover(); last = ch; }
+    });
+    ch.addEventListener('mouseleave', function() { if (last === ch) last = null; });
+    ch.addEventListener('mousedown', playSelect);
+  });
+}());
+</script>
+{{ end }}
