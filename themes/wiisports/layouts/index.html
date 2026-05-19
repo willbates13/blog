@@ -1,0 +1,69 @@
+{{ partial "head.html" . }}
+<body class="home-body">
+
+  <div class="wii-bg"></div>
+
+  <header class="home-header">
+    <h1 class="site-title">{{ .Site.Title }}</h1>
+    <p class="site-sub">Select a sport to get started</p>
+  </header>
+
+  <main class="sport-select">
+    <a href="{{ "basketball/" | relURL }}" class="sport-tile tile-basketball">
+      <div class="tile-icon">🏀</div>
+      <div class="tile-label">Basketball</div>
+    </a>
+    <a href="{{ "golf/" | relURL }}" class="sport-tile tile-golf">
+      <div class="tile-icon">⛳</div>
+      <div class="tile-label">Golf</div>
+    </a>
+    <a href="{{ "american-football/" | relURL }}" class="sport-tile tile-football">
+      <div class="tile-icon">🏈</div>
+      <div class="tile-label">American Football</div>
+    </a>
+    <a href="{{ "ice-hockey/" | relURL }}" class="sport-tile tile-hockey">
+      <div class="tile-icon">🏒</div>
+      <div class="tile-label">Ice Hockey</div>
+    </a>
+  </main>
+
+  <div class="music-controls">
+    <audio id="bg-music" loop>
+      <source src="{{ "audio/theme.mp3" | relURL }}" type="audio/mpeg">
+    </audio>
+    <button id="music-toggle" class="music-btn" title="Toggle music">♪</button>
+  </div>
+
+{{ partial "footer.html" . }}
+{{ define "scripts" }}
+<script>
+  const btn = document.getElementById('music-toggle');
+  const audio = document.getElementById('bg-music');
+  let playing = false;
+
+  // Wii-style: try autoplay on first interaction
+  document.addEventListener('click', function startOnce(e) {
+    if (!playing && e.target.closest('.sport-tile') === null) {
+      audio.play().then(() => { playing = true; btn.classList.add('active'); });
+      document.removeEventListener('click', startOnce);
+    }
+  }, { once: false });
+
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (playing) {
+      audio.pause();
+      playing = false;
+      btn.classList.remove('active');
+    } else {
+      audio.play().then(() => { playing = true; btn.classList.add('active'); });
+    }
+  });
+
+  // Wii wobble on tile hover
+  document.querySelectorAll('.sport-tile').forEach(tile => {
+    tile.addEventListener('mouseenter', () => tile.classList.add('wobble'));
+    tile.addEventListener('animationend', () => tile.classList.remove('wobble'));
+  });
+</script>
+{{ end }}

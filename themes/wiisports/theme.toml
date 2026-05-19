@@ -1,0 +1,9 @@
+[theme]
+name = "wiisports"
+license = "MIT"
+licenselink = ""
+description = "Wii Sports inspired sports analytics blog theme"
+homepage = ""
+tags = ["sports", "analytics", "blog"]
+features = ["custom home page", "sport sections"]
+min_version = "0.110.0"

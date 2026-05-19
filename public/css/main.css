@@ -1,0 +1,327 @@
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --wii-white:   #f5f5f5;
+  --wii-blue:    #009ac7;
+  --wii-light:   #e8f4f8;
+  --wii-shadow:  rgba(0,0,0,0.15);
+  --basketball:  #e87722;
+  --golf:        #4caf50;
+  --football:    #8b4513;
+  --hockey:      #5b8dd9;
+  --radius:      18px;
+  --tile-size:   220px;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--wii-white);
+  color: #222;
+  min-height: 100vh;
+}
+
+/* ── Home page ── */
+.home-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.wii-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, #def3ff 0%, #b8e4f9 40%, #8ecfe8 100%);
+  z-index: -1;
+}
+
+/* Wii-style floating bubbles */
+.wii-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle 80px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 70%),
+    radial-gradient(circle 120px at 85% 15%, rgba(255,255,255,0.3) 0%, transparent 70%),
+    radial-gradient(circle 60px at 70% 75%, rgba(255,255,255,0.3) 0%, transparent 70%),
+    radial-gradient(circle 90px at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 70%);
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.site-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 3px 12px rgba(0,100,180,0.4);
+  letter-spacing: -0.5px;
+}
+
+.site-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ── Sport tiles ── */
+.sport-select {
+  display: grid;
+  grid-template-columns: repeat(2, var(--tile-size));
+  gap: 28px;
+}
+
+@media (max-width: 520px) {
+  .sport-select { grid-template-columns: 1fr 1fr; --tile-size: 140px; gap: 16px; }
+}
+
+.sport-tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 8px 30px var(--wii-shadow), 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.sport-tile::before {
+  content: "";
+  position: absolute;
+  top: -30%;
+  left: -20%;
+  width: 60%;
+  height: 60%;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.sport-tile:hover {
+  transform: scale(1.07) translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.sport-tile:active { transform: scale(0.97); }
+
+.tile-basketball { background: linear-gradient(145deg, #f0892e, #c95e0e); }
+.tile-golf       { background: linear-gradient(145deg, #5dbf61, #2e8c32); }
+.tile-football   { background: linear-gradient(145deg, #a0581f, #6b3010); }
+.tile-hockey     { background: linear-gradient(145deg, #6b9fe8, #3465b5); }
+
+.tile-icon  { font-size: 3.2rem; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25)); }
+.tile-label { font-size: 0.95rem; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+/* Wobble animation */
+@keyframes wobble {
+  0%   { transform: scale(1.07) translateY(-4px) rotate(0deg); }
+  25%  { transform: scale(1.07) translateY(-4px) rotate(-2deg); }
+  75%  { transform: scale(1.07) translateY(-4px) rotate(2deg); }
+  100% { transform: scale(1.07) translateY(-4px) rotate(0deg); }
+}
+.sport-tile.wobble { animation: wobble 0.3s ease; }
+
+/* ── Music button ── */
+.music-controls {
+  position: fixed;
+  bottom: 24px;
+  right: 28px;
+}
+
+.music-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(8px);
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  transition: background 0.2s;
+  color: #555;
+}
+
+.music-btn.active {
+  background: var(--wii-blue);
+  color: #fff;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(0,154,199,0.4); }
+  50%       { box-shadow: 0 4px 24px rgba(0,154,199,0.7); }
+}
+
+/* ── Inner pages ── */
+.inner-body {
+  background: var(--wii-light);
+  min-height: 100vh;
+}
+
+.inner-body.sport-basketball { --accent: var(--basketball); }
+.inner-body.sport-golf       { --accent: var(--golf); }
+.inner-body.sport-football   { --accent: var(--football); }
+.inner-body.sport-hockey     { --accent: var(--hockey); }
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 32px;
+  background: var(--accent, var(--wii-blue));
+  color: #fff;
+}
+
+.nav-home {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.15s;
+}
+.nav-home:hover { opacity: 0.7; }
+
+.nav-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.inner-main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* ── Sport section header ── */
+.sport-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.sport-hero-icon { font-size: 5rem; line-height: 1; margin-bottom: 12px; }
+
+.sport-header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--accent, var(--wii-blue));
+}
+
+.sport-desc {
+  color: #666;
+  margin-top: 8px;
+  font-size: 1.05rem;
+}
+
+/* ── Post list ── */
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.post-card {
+  display: block;
+  background: #fff;
+  border-radius: 14px;
+  padding: 24px 28px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-left: 5px solid var(--accent, var(--wii-blue));
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.post-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.post-meta { font-size: 0.82rem; color: #999; margin-bottom: 6px; }
+
+.post-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.post-excerpt { color: #555; font-size: 0.95rem; line-height: 1.5; }
+
+.post-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+.tag {
+  background: rgba(0,0,0,0.06);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.no-posts { color: #999; text-align: center; padding: 60px 0; font-size: 1.1rem; }
+
+/* ── Single post ── */
+.post-article {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 48px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+}
+
+@media (max-width: 600px) { .post-article { padding: 24px 20px; } }
+
+.post-header { margin-bottom: 32px; }
+.post-date { font-size: 0.85rem; color: #999; margin-bottom: 8px; }
+.post-header h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; }
+
+.post-content {
+  line-height: 1.75;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.post-content h2 { font-size: 1.4rem; margin: 2em 0 0.6em; color: var(--accent, var(--wii-blue)); }
+.post-content h3 { font-size: 1.15rem; margin: 1.5em 0 0.5em; }
+.post-content p  { margin-bottom: 1.2em; }
+.post-content code {
+  background: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.post-content pre {
+  background: #1e1e2e;
+  color: #cdd6f4;
+  padding: 20px 24px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1.5em 0;
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+.post-content pre code { background: none; padding: 0; }
+.post-content blockquote {
+  border-left: 4px solid var(--accent, var(--wii-blue));
+  padding-left: 20px;
+  color: #666;
+  font-style: italic;
+  margin: 1.5em 0;
+}

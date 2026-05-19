@@ -1,0 +1,24 @@
+{{ define "main" }}
+<div class="sport-header">
+  <div class="sport-hero-icon">{{ .Params.icon }}</div>
+  <h1>{{ .Title }}</h1>
+  <p class="sport-desc">{{ .Params.description }}</p>
+</div>
+
+<section class="post-list">
+  {{ range .Pages }}
+  <a href="{{ .RelPermalink }}" class="post-card">
+    <div class="post-meta">{{ .Date.Format "Jan 2, 2006" }}</div>
+    <h2 class="post-title">{{ .Title }}</h2>
+    {{ with .Params.summary }}<p class="post-excerpt">{{ . }}</p>{{ end }}
+    {{ with .Params.tags }}
+    <div class="post-tags">
+      {{ range . }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+    {{ end }}
+  </a>
+  {{ else }}
+  <p class="no-posts">No posts yet — check back soon.</p>
+  {{ end }}
+</section>
+{{ end }}

@@ -1,0 +1,10 @@
+baseURL = "https://willbates13.github.io/blog/"
+locale = "en-us"
+title = "Will's Sports Analytics"
+theme = "wiisports"
+
+[params]
+  description = "Sports analytics models and breakdowns"
+
+[markup.goldmark.renderer]
+  unsafe = true
