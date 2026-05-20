@@ -17,7 +17,7 @@ body { font-family: "Segoe UI", system-ui, sans-serif; }
    matched to where elements sit in the background image.
 ═══════════════════════════════ */
 .home-body {
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
   overflow: hidden;
 }
@@ -92,7 +92,7 @@ body { font-family: "Segoe UI", system-ui, sans-serif; }
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   z-index: 10;
   pointer-events: none;
 }
