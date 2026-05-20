@@ -1,13 +1,4 @@
 {{ partial "head.html" . }}
-{{ define "head_extra" }}
-<style>
-  .home-body {
-    background-image: url('{{ "img/wii-bg.jpg" | relURL }}');
-    background-size: cover;
-    background-position: center top;
-  }
-</style>
-{{ end }}
 <body class="home-body">
 
   <div class="wii-bubbles">
@@ -16,53 +7,47 @@
     <div class="bubble b5"></div><div class="bubble b6"></div>
   </div>
 
-  <!-- Overlays "WiiSports" text top-right -->
-  <div class="site-title">Wii Sports<br><span class="site-analytics">Analytics</span></div>
+  <div class="wii-screen">
+    <div class="channel-row">
 
-  <!-- Sport buttons overlaid on the left panel -->
-  <nav class="sport-nav">
+      <a href="{{ "basketball/" | relURL }}" class="ch ch-basketball">
+        <div class="ch-name">Basketball</div>
+        <div class="ch-hover-card">
+          <div class="ch-hover-art bball-art"></div>
+          <div class="ch-hover-label">Basketball Analytics</div>
+          <div class="ch-hover-sub">NBA models &amp; player efficiency</div>
+        </div>
+      </a>
 
-    <a href="{{ "basketball/" | relURL }}" class="sport-btn btn-basketball">
-      <span class="btn-emoji">🏀</span>
-      <span class="btn-label">Basketball</span>
-      <div class="ch-hover-card">
-        <div class="ch-hover-art bball-art"></div>
-        <div class="ch-hover-label">Basketball Analytics</div>
-        <div class="ch-hover-sub">NBA models &amp; player efficiency</div>
-      </div>
-    </a>
+      <a href="{{ "golf/" | relURL }}" class="ch ch-golf">
+        <div class="ch-name">Golf</div>
+        <div class="ch-hover-card">
+          <div class="ch-hover-art golf-art"></div>
+          <div class="ch-hover-label">Golf Analytics</div>
+          <div class="ch-hover-sub">Strokes gained &amp; course fit</div>
+        </div>
+      </a>
 
-    <a href="{{ "golf/" | relURL }}" class="sport-btn btn-golf">
-      <span class="btn-emoji">⛳</span>
-      <span class="btn-label">Golf</span>
-      <div class="ch-hover-card">
-        <div class="ch-hover-art golf-art"></div>
-        <div class="ch-hover-label">Golf Analytics</div>
-        <div class="ch-hover-sub">Strokes gained &amp; course fit</div>
-      </div>
-    </a>
+      <a href="{{ "american-football/" | relURL }}" class="ch ch-football">
+        <div class="ch-name">Football</div>
+        <div class="ch-hover-card">
+          <div class="ch-hover-art football-art"></div>
+          <div class="ch-hover-label">Football Analytics</div>
+          <div class="ch-hover-sub">NFL EPA &amp; play-calling models</div>
+        </div>
+      </a>
 
-    <a href="{{ "american-football/" | relURL }}" class="sport-btn btn-football">
-      <span class="btn-emoji">🏈</span>
-      <span class="btn-label">Football</span>
-      <div class="ch-hover-card">
-        <div class="ch-hover-art football-art"></div>
-        <div class="ch-hover-label">Football Analytics</div>
-        <div class="ch-hover-sub">NFL EPA &amp; play-calling models</div>
-      </div>
-    </a>
+      <a href="{{ "ice-hockey/" | relURL }}" class="ch ch-hockey">
+        <div class="ch-name">Ice Hockey</div>
+        <div class="ch-hover-card">
+          <div class="ch-hover-art hockey-art"></div>
+          <div class="ch-hover-label">Hockey Analytics</div>
+          <div class="ch-hover-sub">xG models &amp; zone entry data</div>
+        </div>
+      </a>
 
-    <a href="{{ "ice-hockey/" | relURL }}" class="sport-btn btn-hockey">
-      <span class="btn-emoji">🏒</span>
-      <span class="btn-label">Ice Hockey</span>
-      <div class="ch-hover-card">
-        <div class="ch-hover-art hockey-art"></div>
-        <div class="ch-hover-label">Hockey Analytics</div>
-        <div class="ch-hover-sub">xG models &amp; zone entry data</div>
-      </div>
-    </a>
-
-  </nav>
+    </div>
+  </div>
 
 {{ partial "footer.html" . }}
 {{ define "scripts" }}
@@ -87,14 +72,11 @@
   }
   function playHover()  { tone(880, 0.15, 0.10, 0); tone(1109, 0.12, 0.08, 0.08); }
   function playSelect() { tone(1320, 0.08, 0.18, 0); tone(880, 0.15, 0.14, 0.07); }
-
   var last = null;
-  document.querySelectorAll('.sport-btn').forEach(function(btn) {
-    btn.addEventListener('mouseenter', function() {
-      if (last !== btn) { playHover(); last = btn; }
-    });
-    btn.addEventListener('mouseleave', function() { if (last === btn) last = null; });
-    btn.addEventListener('mousedown', playSelect);
+  document.querySelectorAll('.ch').forEach(function(ch) {
+    ch.addEventListener('mouseenter', function() { if (last !== ch) { playHover(); last = ch; } });
+    ch.addEventListener('mouseleave', function() { if (last === ch) last = null; });
+    ch.addEventListener('mousedown', playSelect);
   });
 }());
 </script>
