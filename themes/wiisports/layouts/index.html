@@ -53,30 +53,49 @@
 {{ define "scripts" }}
 <script>
 (function () {
-  var actx = null;
-  function ctx() {
+  var actx;
+  function getCtx() {
     if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') actx.resume();
     return actx;
   }
-  function tone(freq, dur, vol, delay) {
+
+  function beep(freq, dur, vol) {
     try {
-      var c = ctx(), o = c.createOscillator(), g = c.createGain();
-      o.connect(g); g.connect(c.destination);
+      var c = getCtx();
+      var o = c.createOscillator();
+      var g = c.createGain();
+      o.connect(g);
+      g.connect(c.destination);
       o.type = 'sine';
-      var t = c.currentTime + (delay || 0);
-      o.frequency.setValueAtTime(freq, t);
-      g.gain.setValueAtTime(vol, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
-      o.start(t); o.stop(t + dur + 0.01);
-    } catch(e) {}
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(vol, c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+      o.start(c.currentTime);
+      o.stop(c.currentTime + dur);
+    } catch (e) {}
   }
-  function playHover()  { tone(880, 0.15, 0.10, 0); tone(1109, 0.12, 0.08, 0.08); }
-  function playSelect() { tone(1320, 0.08, 0.18, 0); tone(880, 0.15, 0.14, 0.07); }
+
+  // Unlock audio context on first interaction anywhere on the page
+  document.addEventListener('pointerdown', function unlock() {
+    getCtx();
+    document.removeEventListener('pointerdown', unlock);
+  }, { once: true });
+
   var last = null;
-  document.querySelectorAll('.ch').forEach(function(ch) {
-    ch.addEventListener('mouseenter', function() { if (last !== ch) { playHover(); last = ch; } });
-    ch.addEventListener('mouseleave', function() { if (last === ch) last = null; });
-    ch.addEventListener('mousedown', playSelect);
+  document.querySelectorAll('.ch').forEach(function (ch) {
+    ch.addEventListener('mouseenter', function () {
+      if (last !== ch) {
+        beep(900, 0.1, 0.04);   // quiet soft blip on hover
+        last = ch;
+      }
+    });
+    ch.addEventListener('mouseleave', function () {
+      if (last === ch) last = null;
+    });
+    ch.addEventListener('pointerdown', function () {
+      beep(1100, 0.08, 0.05);   // slightly higher, quiet tap on click
+    });
   });
 }());
 </script>
